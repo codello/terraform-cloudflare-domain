@@ -4,7 +4,7 @@ locals {
     google    = "include:_spf.google.com"
     ionos     = ["include:_spf.perfora.net", "include:_spf.kundenserver.de"]
     mailcheap = concat(
-      var.mailcheap.mail_host != null ? ["a:${var.mailcheap.mail_host}"] : [],
+      var.mailcheap.host != null ? ["a:${var.mailcheap.host}"] : [],
       ["a:relay.mymailcheap.com"]
     )
     mailchimp  = "include:servers.mcsv.net"
