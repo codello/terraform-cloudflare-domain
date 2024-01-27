@@ -1,5 +1,5 @@
 locals {
-  fqdn = var.name == "@" || var.name == null ? data.cloudflare_zone.zone.name : "${trimsuffix(trimsuffix(var.name, data.cloudflare_zone), ".")}.${data.cloudflare_zone.zone.name}"
+  fqdn = var.name == "@" || var.name == null ? data.cloudflare_zone.zone.name : "${trimsuffix(trimsuffix(var.name, data.cloudflare_zone.zone.name), ".")}.${data.cloudflare_zone.zone.name}"
 }
 
 data "cloudflare_zone" "zone" {
