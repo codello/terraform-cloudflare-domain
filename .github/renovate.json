@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>codello/.github:renovate-config"],
+  "packageRules": [{
+    "matchDatasources": ["terraform-provider"],
+    "rangeStrategy": "widen"
+  }, {
+    "matchPackageNames": ["hashicorp/terraform"],
+    "rangeStrategy": "widen"
+  }]
+}
