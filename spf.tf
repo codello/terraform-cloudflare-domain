@@ -12,7 +12,7 @@ locals {
     mailgun-eu = "include:eu.mailgun.org"
     mailjet    = "include:spf.mailjet.com"
     microsoft  = "include:spf.protection.outlook.com"
-    mxroute = concat(
+    mxroute    = concat(
       var.mxroute.ip4 != null ? ["ip4:${var.mxroute.ip4}"] : [],
       ["include:mxroute.com"]
     )

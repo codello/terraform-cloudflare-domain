@@ -32,8 +32,8 @@ module "example_domain" {
   dmarc_policy = ...
   bimi         = ...
   spf_policy   = {
-    auto = ["microsoft"]
-    all  = "fail"
+    services = ["microsoft"]
+    all      = "fail"
   }
 }
 ```
@@ -85,13 +85,13 @@ You can configure DMARC using the `dmarc_policy` variable. It can be set to an o
 
 You can configure the domain’s SPF policy using the `spf_policy` variable. It can be set to an object containing the following keys:
 
-| Key          | Required | Description                                                  |
-| ------------ | -------- | ------------------------------------------------------------ |
-| `directives` | No       | A list of SPF directives that are included verbatim.         |
-| `redirect`   | No       | A SPF redirect policy (excluding the `redirect=` prefx).     |
-| `exp`        | No       | The `exp` value of the SPF record. Note that the module currently does not handle exlanation values. You have to create the referenced explanation record yourself. |
-| `all`        | No       | One of `"pass"`, `"fail"`, `"softfail"`, `"neutral"` determining how emails should be treated that do not conform to the SPF policy. |
-| `auto`       | No       | A list of service names. For some service names the module contains known SPF `include:` policies. Using the `auto` mechanism you can use these known values instead of writing your own `directives`. For example including `"microsoft"` in `auto` will add `include:spf.protection.outlook.com` to the generated SPF policy. |
+| Key           | Required | Description                                                  |
+| ------------- | -------- | ------------------------------------------------------------ |
+| `directives`  | No       | A list of SPF directives that are included verbatim.         |
+| `redirect`    | No       | A SPF redirect policy (excluding the `redirect=` prefx).     |
+| `exp_message` | No       | A message used for the `exp` value of the SPF record. If specified a dedicated DNS entry for the message is created and then linked in the `exp` part of the SPF record. |
+| `fail`        | No       | One of `"pass"`, `"fail"`, `"softfail"`, `"neutral"` determining how emails should be treated that do not conform to the SPF policy. |
+| `services`    | No       | A list of service names. For some service names the module contains known SPF `include:` policies. Using the `services` mechanism you can use these known values instead of writing your own `directives`. For example including `"microsoft"` in `services` will add `include:spf.protection.outlook.com` to the generated SPF policy. |
 
 ### BIMI Configuration
 
