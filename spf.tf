@@ -31,7 +31,7 @@ locals {
     flatten([for service in var.spf_policy.services : local.service_spf[service]]),
     var.spf_policy.directives,
     var.spf_policy.redirect != null ? ["redirect=${var.spf_policy.redirect}"] : [],
-    var.spf_policy.redirect == null ? [local.spf_fail_policies[var.spf_policy.fail]] : []
+    var.spf_policy.redirect == null ? [local.spf_fail_policies[var.spf_policy.all]] : []
   )) : null
 }
 

@@ -34,11 +34,16 @@ variable "spf_policy" {
     services    = optional(list(string), [])
     directives  = optional(list(string), [])
     redirect    = optional(string)
-    fail        = optional(string, "neutral")
+    all         = optional(string, "neutral")
     exp_message = optional(string)
   })
   default     = null
   description = "The SPF policy used to create a SPF record. By default no SPF record is created."
+
+  validation {
+    condition     = var.spf_policy == null ? true : contains(["pass", "fail", "softfail", "neutral"], var.spf_policy.all)
+    error_message = "The all value must be one of pass, fail, softfail, and neutral."
+  }
 }
 
 variable "dkim_keys" {
