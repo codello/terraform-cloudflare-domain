@@ -13,12 +13,6 @@ variable "name" {
   default     = "@"
 }
 
-variable "puny_domain" {
-  type        = string
-  default     = null
-  description = "A puny-encoded version of the fully qualified domain name. This is used for SRV records to remove some noise from plans."
-}
-
 variable "ttl" {
   type        = number
   default     = null

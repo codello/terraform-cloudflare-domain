@@ -17,9 +17,6 @@ resource "cloudflare_record" "ovh_autodiscover" {
   ttl     = var.ttl
 
   data {
-    service  = "_autodiscover"
-    proto    = "_tcp"
-    name     = local.fqdn
     priority = 0
     weight   = 0
     port     = 443

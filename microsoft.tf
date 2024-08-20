@@ -62,9 +62,6 @@ resource "cloudflare_record" "_sip" {
   ttl     = var.ttl
 
   data {
-    service  = "_sip"
-    proto    = "_tls"
-    name     = var.puny_domain != null ? var.puny_domain : local.fqdn
     priority = 100
     weight   = 1
     port     = 443
@@ -81,9 +78,6 @@ resource "cloudflare_record" "_sipfederationtls" {
   ttl     = var.ttl
 
   data {
-    service  = "_sipfederationtls"
-    proto    = "_tcp"
-    name     = var.puny_domain != null ? var.puny_domain : local.fqdn
     priority = 100
     weight   = 1
     port     = 5061

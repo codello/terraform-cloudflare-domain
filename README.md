@@ -278,23 +278,7 @@ Connect the domain to [Rapidmail](https://www.rapidmail.de) by setting the `rapi
 
 ## IDN Domain Names
 
-IDNs should work with this module without any further configuration. However you might see some noise in Terraform plans because the Cloudflare API does not return IDNs for SRV records. This is functionally not a problem but might annoy you. To fix this you can set the `puny_domain` field to the puny-encoded version of the fully qualified domain name you are configuring (which might differ from the zone name if you are configuring a subdomain).
-
-```terraform
-resource "cloudflare_zone" "idn" {
-  zone = "tëst.com"
-}
-
-module "example" {
-  source = "github.com/codello/terraform-cloudflare-domain"
-
-  zone_id     = cloudflare_zone.example.id
-  # We are configuring süb.tëst.com
-  name        = "süb"
-  # This has no functional impact but might reduce some noise in plans.
-  puny_domain = "xn--sb-xka.xn--tst-jma.com"
-}
-```
+IDNs should work with this module without any further configuration. In the past additional configuration was needed for SRV records but this is no longer the case.
 
 ## Configuring Certificate Authorities
 
