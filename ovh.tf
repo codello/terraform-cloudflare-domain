@@ -4,7 +4,7 @@ resource "cloudflare_record" "ovh_verification" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "${var.ovh.verification}.${local.fqdn}"
-  value   = "ovh.com"
+  content = "ovh.com"
   ttl     = var.ttl
 }
 
@@ -38,7 +38,7 @@ resource "cloudflare_record" "ovh_mx" {
   zone_id  = var.zone_id
   type     = "MX"
   name     = local.fqdn
-  value    = each.key
+  content  = each.key
   priority = each.value
   ttl      = var.ttl
 }

@@ -4,7 +4,7 @@ resource "cloudflare_record" "mailcheap_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = var.mailcheap.verification
+  content = var.mailcheap.verification
   ttl     = var.ttl
 }
 
@@ -18,7 +18,7 @@ resource "cloudflare_record" "mailcheap_mx" {
   zone_id  = var.zone_id
   type     = "MX"
   name     = local.fqdn
-  value    = each.key
+  content  = each.key
   priority = each.value
   ttl      = var.ttl
 }

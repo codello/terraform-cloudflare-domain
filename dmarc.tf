@@ -26,6 +26,6 @@ resource "cloudflare_record" "dmarc" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = "_dmarc.${local.fqdn}"
-  value   = join("; ", compact(local.dmarc_components))
+  content = join("; ", compact(local.dmarc_components))
   ttl     = var.ttl
 }

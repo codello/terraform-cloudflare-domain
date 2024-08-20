@@ -8,7 +8,7 @@ resource "cloudflare_record" "ms_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = "MS=${var.microsoft.verification}"
+  content = "MS=${var.microsoft.verification}"
   ttl     = var.ttl
 }
 
@@ -18,7 +18,7 @@ resource "cloudflare_record" "ms_mx" {
   zone_id  = var.zone_id
   type     = "MX"
   name     = local.fqdn
-  value    = "${local.ms_domain}.mail.protection.outlook.com"
+  content  = "${local.ms_domain}.mail.protection.outlook.com"
   priority = 0
   ttl      = var.ttl
 }
@@ -29,7 +29,7 @@ resource "cloudflare_record" "ms_autodiscover" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "autodiscover.${local.fqdn}"
-  value   = "autodiscover.outlook.com"
+  content = "autodiscover.outlook.com"
   ttl     = var.ttl
 }
 
@@ -39,7 +39,7 @@ resource "cloudflare_record" "sip" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "sip.${local.fqdn}"
-  value   = "sipdir.online.lync.com"
+  content = "sipdir.online.lync.com"
   ttl     = var.ttl
 }
 
@@ -49,7 +49,7 @@ resource "cloudflare_record" "lyncdiscover" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "lyncdiscover.${local.fqdn}"
-  value   = "webdir.online.lync.com"
+  content = "webdir.online.lync.com"
   ttl     = var.ttl
 }
 
@@ -97,7 +97,7 @@ resource "cloudflare_record" "enterpriseregistration" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "enterpriseregistration.${local.fqdn}"
-  value   = "enterpriseregistration.windows.net"
+  content = "enterpriseregistration.windows.net"
   ttl     = var.ttl
 }
 
@@ -107,7 +107,7 @@ resource "cloudflare_record" "enterpriseenrollment" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "enterpriseenrollment.${local.fqdn}"
-  value   = "enterpriseenrollment.manage.microsoft.com"
+  content = "enterpriseenrollment.manage.microsoft.com"
   ttl     = var.ttl
 }
 
@@ -117,6 +117,6 @@ resource "cloudflare_record" "ms_dkim" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "${each.value}._domainkey.${local.fqdn}"
-  value   = "${each.value}-${local.ms_domain}._domainkey.${var.microsoft.tenant}.onmicrosoft.com"
+  content = "${each.value}-${local.ms_domain}._domainkey.${var.microsoft.tenant}.onmicrosoft.com"
   ttl     = var.ttl
 }

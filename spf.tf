@@ -12,7 +12,7 @@ locals {
     mailgun-eu = "include:eu.mailgun.org"
     mailjet    = "include:spf.mailjet.com"
     microsoft  = "include:spf.protection.outlook.com"
-    mxroute    = concat(
+    mxroute = concat(
       var.mxroute.ip4 != null ? ["ip4:${var.mxroute.ip4}"] : [],
       ["include:mxroute.com"]
     )
@@ -41,7 +41,7 @@ resource "cloudflare_record" "spf" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = local.spf_record
+  content = local.spf_record
   ttl     = var.ttl
 }
 
@@ -51,6 +51,6 @@ resource "cloudflare_record" "spf_exp" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = "exp.spf.${local.fqdn}"
-  value   = var.spf_policy.exp_message
+  content = var.spf_policy.exp_message
   ttl     = var.ttl
 }

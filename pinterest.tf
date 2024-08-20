@@ -4,6 +4,6 @@ resource "cloudflare_record" "pinterest_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = "pinterest-site-verification=${var.pinterest.verification}"
+  content = "pinterest-site-verification=${var.pinterest.verification}"
   ttl     = var.ttl
 }

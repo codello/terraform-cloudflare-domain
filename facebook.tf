@@ -4,6 +4,6 @@ resource "cloudflare_record" "facebook_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = "facebook-domain-verification=${var.facebook.verification}"
+  content = "facebook-domain-verification=${var.facebook.verification}"
   ttl     = var.ttl
 }

@@ -4,6 +4,6 @@ resource "cloudflare_record" "apple_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = "apple-domain-verification=${var.apple.verification}"
+  content = "apple-domain-verification=${var.apple.verification}"
   ttl     = var.ttl
 }

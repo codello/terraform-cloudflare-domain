@@ -4,6 +4,6 @@ resource "cloudflare_record" "canva_verification" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.fqdn
-  value   = "canva-site-verification=${var.canva.verification}"
+  content = "canva-site-verification=${var.canva.verification}"
   ttl     = var.ttl
 }

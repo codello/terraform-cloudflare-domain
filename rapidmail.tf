@@ -4,7 +4,7 @@ resource "cloudflare_record" "rapidmail_spf" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = "rm01.${local.fqdn}"
-  value   = "return-cname.emailsys.net"
+  content = "return-cname.emailsys.net"
   ttl     = var.ttl
 }
 
@@ -14,6 +14,6 @@ resource "cloudflare_record" "rapidmail_tracking" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = local.fqdn
-  value   = "tools-cname.emailsys.net"
+  content = "tools-cname.emailsys.net"
   ttl     = var.ttl
 }

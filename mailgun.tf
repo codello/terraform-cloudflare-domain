@@ -31,7 +31,7 @@ resource "cloudflare_record" "mailgun_mx" {
   zone_id  = var.zone_id
   type     = "MX"
   name     = local.fqdn
-  value    = local.mg_mx_records[count.index].value
+  content  = local.mg_mx_records[count.index].value
   priority = local.mg_mx_records[count.index].priority
   ttl      = var.ttl
 }
@@ -42,7 +42,7 @@ resource "cloudflare_record" "mailgun_tracking" {
   zone_id = var.zone_id
   type    = "CNAME"
   name    = local.mg_tracking_cname.name
-  value   = local.mg_tracking_cname.value
+  content = local.mg_tracking_cname.value
   ttl     = var.ttl
 }
 
@@ -52,7 +52,7 @@ resource "cloudflare_record" "mailgun_dkim" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.mg_dkim_record.name
-  value   = local.mg_dkim_record.value
+  content = local.mg_dkim_record.value
   ttl     = var.ttl
 }
 
@@ -62,6 +62,6 @@ resource "cloudflare_record" "mailgun_spf" {
   zone_id = var.zone_id
   type    = "TXT"
   name    = local.mg_spf_record.name
-  value   = local.mg_spf_record.value
+  content = local.mg_spf_record.value
   ttl     = var.ttl
 }

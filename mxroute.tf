@@ -7,7 +7,7 @@ resource "cloudflare_record" "mxroute_mx" {
   zone_id  = var.zone_id
   type     = "MX"
   name     = local.fqdn
-  value    = each.key
+  content  = each.key
   priority = each.value
   ttl      = var.ttl
 }

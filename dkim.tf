@@ -6,6 +6,6 @@ resource "cloudflare_record" "dkim" {
   name = "${split(".", each.key)[0]}._domainkey${
     length(split(".", each.key)) <= 1 ? "" : ".${join(".", slice(split(".", each.key), 1, length(split(".", each.key))))}"
   }.${local.fqdn}"
-  value = each.value
-  ttl   = var.ttl
+  content = each.value
+  ttl     = var.ttl
 }
