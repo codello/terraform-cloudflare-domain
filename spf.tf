@@ -16,8 +16,9 @@ locals {
       var.mxroute.ip4 != null ? ["ip4:${var.mxroute.ip4}"] : [],
       ["include:mxroute.com"]
     )
-    ovh        = "include:mx.ovh.com"
-    sendinblue = "include:spf.sendinblue.com"
+    ovh         = "include:mx.ovh.com"
+    questionpro = "include:_spf.qp-mail.eu"
+    sendinblue  = "include:spf.sendinblue.com"
   }
   spf_fail_policies = {
     pass     = "+all",
