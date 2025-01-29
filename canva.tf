@@ -1,4 +1,4 @@
-resource "cloudflare_record" "canva_verification" {
+resource "cloudflare_dns_record" "canva_verification" {
   count = var.canva.verification != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -6,4 +6,6 @@ resource "cloudflare_record" "canva_verification" {
   name    = local.fqdn
   content = "canva-site-verification=${var.canva.verification}"
   ttl     = var.ttl
+
+  comment = "Domain verification for Canva. ${local.managed}"
 }

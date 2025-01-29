@@ -1,4 +1,4 @@
-resource "cloudflare_record" "google_site_verification" {
+resource "cloudflare_dns_record" "google_site_verification" {
   count = var.google.verification != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -6,9 +6,11 @@ resource "cloudflare_record" "google_site_verification" {
   name    = local.fqdn
   content = "google-site-verification=${var.google.verification}"
   ttl     = var.ttl
+
+  comment = "Domain verification for Google. ${local.managed}"
 }
 
-resource "cloudflare_record" "gmail" {
+resource "cloudflare_dns_record" "gmail" {
   for_each = var.google.gmail ? {
     "aspmx.l.google.com"      = 1
     "alt1.aspmx.l.google.com" = 5
@@ -23,4 +25,6 @@ resource "cloudflare_record" "gmail" {
   content  = each.key
   priority = each.value
   ttl      = var.ttl
+
+  comment = "Gmail configuration for Google Workspace. ${local.managed}"
 }

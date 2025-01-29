@@ -2,7 +2,7 @@ locals {
   ms_domain = var.microsoft.domain != null ? var.microsoft.domain : replace(replace(local.fqdn, "-", ""), ".", "-")
 }
 
-resource "cloudflare_record" "ms_verification" {
+resource "cloudflare_dns_record" "ms_verification" {
   count = var.microsoft.verification != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -10,9 +10,11 @@ resource "cloudflare_record" "ms_verification" {
   name    = local.fqdn
   content = "MS=${var.microsoft.verification}"
   ttl     = var.ttl
+
+  comment = "Domain verification for Microsoft. ${local.managed}"
 }
 
-resource "cloudflare_record" "ms_mx" {
+resource "cloudflare_dns_record" "ms_mx" {
   count = var.microsoft.outlook ? 1 : 0
 
   zone_id  = var.zone_id
@@ -21,9 +23,11 @@ resource "cloudflare_record" "ms_mx" {
   content  = "${local.ms_domain}.mail.protection.outlook.com"
   priority = 0
   ttl      = var.ttl
+
+  comment = "Exchange mail configuration. ${local.managed}"
 }
 
-resource "cloudflare_record" "ms_autodiscover" {
+resource "cloudflare_dns_record" "ms_autodiscover" {
   count = var.microsoft.autodiscover ? 1 : 0
 
   zone_id = var.zone_id
@@ -31,9 +35,11 @@ resource "cloudflare_record" "ms_autodiscover" {
   name    = "autodiscover.${local.fqdn}"
   content = "autodiscover.outlook.com"
   ttl     = var.ttl
+
+  comment = "Exchange autodiscover configuration. ${local.managed}"
 }
 
-resource "cloudflare_record" "sip" {
+resource "cloudflare_dns_record" "sip" {
   count = var.microsoft.skype ? 1 : 0
 
   zone_id = var.zone_id
@@ -41,9 +47,11 @@ resource "cloudflare_record" "sip" {
   name    = "sip.${local.fqdn}"
   content = "sipdir.online.lync.com"
   ttl     = var.ttl
+
+  comment = "SIP configuration for Teams. ${local.managed}"
 }
 
-resource "cloudflare_record" "lyncdiscover" {
+resource "cloudflare_dns_record" "lyncdiscover" {
   count = var.microsoft.skype ? 1 : 0
 
   zone_id = var.zone_id
@@ -51,9 +59,11 @@ resource "cloudflare_record" "lyncdiscover" {
   name    = "lyncdiscover.${local.fqdn}"
   content = "webdir.online.lync.com"
   ttl     = var.ttl
+
+  comment = "Lync configuration for Teams. ${local.managed}"
 }
 
-resource "cloudflare_record" "_sip" {
+resource "cloudflare_dns_record" "_sip" {
   count = var.microsoft.skype ? 1 : 0
 
   zone_id = var.zone_id
@@ -61,15 +71,17 @@ resource "cloudflare_record" "_sip" {
   name    = "_sip._tls.${local.fqdn}"
   ttl     = var.ttl
 
-  data {
+  data = {
     priority = 100
     weight   = 1
     port     = 443
     target   = "sipdir.online.lync.com"
   }
+
+  comment = "SIP configuration for Teams. ${local.managed}"
 }
 
-resource "cloudflare_record" "_sipfederationtls" {
+resource "cloudflare_dns_record" "_sipfederationtls" {
   count = var.microsoft.skype ? 1 : 0
 
   zone_id = var.zone_id
@@ -77,15 +89,17 @@ resource "cloudflare_record" "_sipfederationtls" {
   name    = "_sipfederationtls._tcp.${local.fqdn}"
   ttl     = var.ttl
 
-  data {
+  data = {
     priority = 100
     weight   = 1
     port     = 5061
     target   = "sipfed.online.lync.com"
   }
+
+  comment = "SIP configuration for Teams. ${local.managed}"
 }
 
-resource "cloudflare_record" "enterpriseregistration" {
+resource "cloudflare_dns_record" "enterpriseregistration" {
   count = var.microsoft.intune ? 1 : 0
 
   zone_id = var.zone_id
@@ -93,9 +107,11 @@ resource "cloudflare_record" "enterpriseregistration" {
   name    = "enterpriseregistration.${local.fqdn}"
   content = "enterpriseregistration.windows.net"
   ttl     = var.ttl
+
+  comment = "Intune registration. ${local.managed}"
 }
 
-resource "cloudflare_record" "enterpriseenrollment" {
+resource "cloudflare_dns_record" "enterpriseenrollment" {
   count = var.microsoft.intune ? 1 : 0
 
   zone_id = var.zone_id
@@ -103,9 +119,11 @@ resource "cloudflare_record" "enterpriseenrollment" {
   name    = "enterpriseenrollment.${local.fqdn}"
   content = "enterpriseenrollment.manage.microsoft.com"
   ttl     = var.ttl
+
+  comment = "Intune enrollment. ${local.managed}"
 }
 
-resource "cloudflare_record" "ms_dkim" {
+resource "cloudflare_dns_record" "ms_dkim" {
   for_each = toset(var.microsoft.dkim ? ["selector1", "selector2"] : [])
 
   zone_id = var.zone_id
@@ -113,4 +131,6 @@ resource "cloudflare_record" "ms_dkim" {
   name    = "${each.value}._domainkey.${local.fqdn}"
   content = "${each.value}-${local.ms_domain}._domainkey.${var.microsoft.tenant}.onmicrosoft.com"
   ttl     = var.ttl
+
+  comment = "DKIM for Exchange. ${local.managed}"
 }

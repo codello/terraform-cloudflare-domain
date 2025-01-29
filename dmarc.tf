@@ -20,7 +20,7 @@ locals {
   ]
 }
 
-resource "cloudflare_record" "dmarc" {
+resource "cloudflare_dns_record" "dmarc" {
   count = var.dmarc_policy != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -28,4 +28,6 @@ resource "cloudflare_record" "dmarc" {
   name    = "_dmarc.${local.fqdn}"
   content = join("; ", compact(local.dmarc_components))
   ttl     = var.ttl
+
+  comment = "Domain DMARC policy. ${local.managed}"
 }

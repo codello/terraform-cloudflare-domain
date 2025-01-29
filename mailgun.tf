@@ -24,7 +24,7 @@ resource "mailgun_domain" "domain" {
   dkim_key_size = var.mailgun.dkim_key_size
 }
 
-resource "cloudflare_record" "mailgun_mx" {
+resource "cloudflare_dns_record" "mailgun_mx" {
   # We have to hardcode the number of MX records so that Terraform knows the number of resources at plan time.
   count = var.mailgun != null ? (var.mailgun.receiving ? 2 : 0) : 0
 
@@ -34,9 +34,11 @@ resource "cloudflare_record" "mailgun_mx" {
   content  = local.mg_mx_records[count.index].value
   priority = local.mg_mx_records[count.index].priority
   ttl      = var.ttl
+
+  comment = "Mail configuration for Mailgun. ${local.managed}"
 }
 
-resource "cloudflare_record" "mailgun_tracking" {
+resource "cloudflare_dns_record" "mailgun_tracking" {
   count = var.mailgun != null ? (var.mailgun.tracking ? 1 : 0) : 0
 
   zone_id = var.zone_id
@@ -44,9 +46,11 @@ resource "cloudflare_record" "mailgun_tracking" {
   name    = local.mg_tracking_cname.name
   content = local.mg_tracking_cname.value
   ttl     = var.ttl
+
+  comment = "Tracking record for Mailgun. ${local.managed}"
 }
 
-resource "cloudflare_record" "mailgun_dkim" {
+resource "cloudflare_dns_record" "mailgun_dkim" {
   count = var.mailgun != null ? (var.mailgun.dkim ? 1 : 0) : 0
 
   zone_id = var.zone_id
@@ -54,9 +58,11 @@ resource "cloudflare_record" "mailgun_dkim" {
   name    = local.mg_dkim_record.name
   content = local.mg_dkim_record.value
   ttl     = var.ttl
+
+  comment = "DKIM record for Mailgun. ${local.managed}"
 }
 
-resource "cloudflare_record" "mailgun_spf" {
+resource "cloudflare_dns_record" "mailgun_spf" {
   count = var.mailgun != null ? (var.mailgun.spf == "auto" ? 1 : 0) : 0
 
   zone_id = var.zone_id
@@ -64,4 +70,6 @@ resource "cloudflare_record" "mailgun_spf" {
   name    = local.mg_spf_record.name
   content = local.mg_spf_record.value
   ttl     = var.ttl
+
+  comment = "SPF record for Mailgun. ${local.managed}"
 }

@@ -1,4 +1,4 @@
-resource "cloudflare_record" "mxroute_mx" {
+resource "cloudflare_dns_record" "mxroute_mx" {
   for_each = var.mxroute.email ? {
     "${var.mxroute.server}.mxlogin.com"       = 10
     "${var.mxroute.server}-relay.mxlogin.com" = 20
@@ -10,4 +10,6 @@ resource "cloudflare_record" "mxroute_mx" {
   content  = each.key
   priority = each.value
   ttl      = var.ttl
+
+  comment = "Mail configuration for MxRoute. ${local.managed}"
 }

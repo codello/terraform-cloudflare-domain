@@ -1,4 +1,4 @@
-resource "cloudflare_record" "pinterest_verification" {
+resource "cloudflare_dns_record" "pinterest_verification" {
   count = var.pinterest.verification != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -6,4 +6,6 @@ resource "cloudflare_record" "pinterest_verification" {
   name    = local.fqdn
   content = "pinterest-site-verification=${var.pinterest.verification}"
   ttl     = var.ttl
+
+  comment = "Domain verification for Pinterest. ${local.managed}"
 }

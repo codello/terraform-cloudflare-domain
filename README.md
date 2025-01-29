@@ -8,7 +8,10 @@ You can use the module like so
 
 ```terraform
 resource "cloudflare_zone" "example" {
-  zone = "example.com"
+  account = {
+    id = "..."
+  }
+  name = "example.com"
 }
 
 module "example_domain" {
@@ -44,7 +47,10 @@ By default this module is used to configure the apex of a zone. However in certa
 
 ```terraform
 resource "cloudflare_zone" "example" {
-  zone = "example.com"
+  account = {
+    id = "..."
+  }
+  name = "example.com"
 }
 
 module "example" {
@@ -115,7 +121,10 @@ The DKIM keys are somewhat special as the do support subdomains without setting 
 
 ```terraform
 resource "cloudflare_zone" "example" {
-  zone = "example.com"
+  account = {
+    id = "..."
+  }
+  name = "example.com"
 }
 
 module "example_domain" {

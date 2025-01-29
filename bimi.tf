@@ -1,4 +1,4 @@
-resource "cloudflare_record" "bimi" {
+resource "cloudflare_dns_record" "bimi" {
   count = var.bimi.logo_url != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -6,4 +6,6 @@ resource "cloudflare_record" "bimi" {
   name    = "default._bimi.${local.fqdn}"
   content = "v=BIMI1; l=${var.bimi.logo_url}; a=${var.bimi.vmc_url}"
   ttl     = var.ttl
+
+  comment = "BIMI Record. ${local.managed}"
 }

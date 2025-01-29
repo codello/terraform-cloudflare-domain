@@ -1,4 +1,4 @@
-resource "cloudflare_record" "dkim" {
+resource "cloudflare_dns_record" "dkim" {
   for_each = var.dkim_keys
 
   zone_id = var.zone_id
@@ -8,4 +8,6 @@ resource "cloudflare_record" "dkim" {
   }.${local.fqdn}"
   content = each.value
   ttl     = var.ttl
+
+  comment = "${local.managed}"
 }

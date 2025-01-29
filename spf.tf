@@ -36,7 +36,7 @@ locals {
   )) : null
 }
 
-resource "cloudflare_record" "spf" {
+resource "cloudflare_dns_record" "spf" {
   count = var.spf_policy != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -44,9 +44,11 @@ resource "cloudflare_record" "spf" {
   name    = local.fqdn
   content = local.spf_record
   ttl     = var.ttl
+
+  comment = "SPF record. ${local.managed}"
 }
 
-resource "cloudflare_record" "spf_exp" {
+resource "cloudflare_dns_record" "spf_exp" {
   count = var.spf_policy != null ? (var.spf_policy.exp_message != null ? 1 : 0) : 0
 
   zone_id = var.zone_id
@@ -54,4 +56,6 @@ resource "cloudflare_record" "spf_exp" {
   name    = "exp.spf.${local.fqdn}"
   content = var.spf_policy.exp_message
   ttl     = var.ttl
+
+  comment = "SPF Exp record. ${local.managed}"
 }

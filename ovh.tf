@@ -1,4 +1,4 @@
-resource "cloudflare_record" "ovh_verification" {
+resource "cloudflare_dns_record" "ovh_verification" {
   count = var.ovh.verification != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -6,9 +6,11 @@ resource "cloudflare_record" "ovh_verification" {
   name    = "${var.ovh.verification}.${local.fqdn}"
   content = "ovh.com"
   ttl     = var.ttl
+
+  comment = "Domain verification for OVH. ${local.managed}"
 }
 
-resource "cloudflare_record" "ovh_autodiscover" {
+resource "cloudflare_dns_record" "ovh_autodiscover" {
   count = var.ovh.server != null ? 1 : 0
 
   zone_id = var.zone_id
@@ -16,15 +18,17 @@ resource "cloudflare_record" "ovh_autodiscover" {
   name    = "_autodiscover._tcp.${local.fqdn}"
   ttl     = var.ttl
 
-  data {
+  data = {
     priority = 0
     weight   = 0
     port     = 443
     target   = var.ovh.server
   }
+
+  comment = "Autodiscover configuration for OVH. ${local.managed}"
 }
 
-resource "cloudflare_record" "ovh_mx" {
+resource "cloudflare_dns_record" "ovh_mx" {
   for_each = var.ovh.email ? {
     "mx3.mail.ovh.net" = 100
     "mx2.mail.ovh.net" = 50
@@ -38,4 +42,6 @@ resource "cloudflare_record" "ovh_mx" {
   content  = each.key
   priority = each.value
   ttl      = var.ttl
+
+  comment = "Mail configuration for OVH. ${local.managed}"
 }
