@@ -66,10 +66,11 @@ resource "cloudflare_dns_record" "lyncdiscover" {
 resource "cloudflare_dns_record" "_sip" {
   count = var.microsoft.skype ? 1 : 0
 
-  zone_id = var.zone_id
-  type    = "SRV"
-  name    = "_sip._tls.${local.fqdn}"
-  ttl     = var.ttl
+  zone_id  = var.zone_id
+  type     = "SRV"
+  name     = "_sip._tls.${local.fqdn}"
+  priority = 100
+  ttl      = var.ttl
 
   data = {
     priority = 100
@@ -84,10 +85,11 @@ resource "cloudflare_dns_record" "_sip" {
 resource "cloudflare_dns_record" "_sipfederationtls" {
   count = var.microsoft.skype ? 1 : 0
 
-  zone_id = var.zone_id
-  type    = "SRV"
-  name    = "_sipfederationtls._tcp.${local.fqdn}"
-  ttl     = var.ttl
+  zone_id  = var.zone_id
+  type     = "SRV"
+  name     = "_sipfederationtls._tcp.${local.fqdn}"
+  priority = 100
+  ttl      = var.ttl
 
   data = {
     priority = 100
