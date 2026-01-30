@@ -169,6 +169,17 @@ variable "facebook" {
   description = "Configures options to connect the domain to Facebook."
 }
 
+variable "github" {
+  type = object({
+    verification = optional(object({
+      key   = string
+      value = string
+    }))
+  })
+  default     = {}
+  description = "Configures options to connect the domain to GitHub,"
+}
+
 variable "google" {
   type = object({
     verification = optional(string)

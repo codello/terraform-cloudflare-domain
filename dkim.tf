@@ -9,5 +9,5 @@ resource "cloudflare_dns_record" "dkim" {
   content = each.value
   ttl     = var.ttl
 
-  comment = "${local.managed}"
+  comment = local.managed
 }

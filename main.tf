@@ -21,5 +21,5 @@ resource "cloudflare_dns_record" "caa" {
     value = var.certificate_authorities[count.index].value
   }
 
-  comment = "${local.managed}"
+  comment = local.managed
 }
