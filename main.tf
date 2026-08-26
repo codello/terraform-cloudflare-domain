@@ -1,10 +1,14 @@
 locals {
-  fqdn    = var.name == "@" || var.name == null ? data.cloudflare_zone.zone.name : "${trimsuffix(trimsuffix(var.name, data.cloudflare_zone.zone.name), ".")}.${data.cloudflare_zone.zone.name}"
+  fqdn    = var.name == "@" || var.name == null ? data.external.idn.result.name : "${trimsuffix(trimsuffix(var.name, data.cloudflare_zone.zone.name), ".")}.${data.external.idn.result.name}"
   managed = "Managed by Terraform."
 }
 
 data "cloudflare_zone" "zone" {
   zone_id = var.zone_id
+}
+
+data "external" "idn" {
+  program = ["python3", "-c", "import sys, json; json.dump({'name': sys.argv[1].encode('idna').decode('ascii')}, sys.stdout)", data.cloudflare_zone.zone.name]
 }
 
 resource "cloudflare_dns_record" "caa" {

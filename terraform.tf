@@ -6,6 +6,10 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 5.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.0"
+    }
     mailgun = {
       source  = "wgebis/mailgun"
       version = "~> 0.7"
